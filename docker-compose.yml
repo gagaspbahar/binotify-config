@@ -1,13 +1,39 @@
 version: '3.3'
 services:
   php-apache:
-    image: php:8.0-apache
+    # image: php:8.0-apache
     ports:
-      - 8000:80
+      - 8001:80
     volumes:
-      - .:/var/www/html
+      - ../binotify-app:/var/www/html
     build:
-      context: .
+      context: ../binotify-app
       dockerfile: Dockerfile
     environment:
       - UPLOAD_LIMIT=10M
+  express:
+    # image: binotify-rest
+    ports:
+      - 8080:8080
+    # volumes:
+      # - ../binotify-rest:/app
+    # working_dir: /app
+    build:
+      context: ../binotify-rest
+      dockerfile: Dockerfile
+    environment:
+      - UPLOAD_LIMIT=10M
+    # command: yarn start
+  react:
+    # image: binotify-premium-app
+    ports:
+      - 4173:4173
+    # volumes:
+      # - ../binotify-premium-app:/react-app
+    # working-dir: /react-app
+    # command: yarn preview
+    build:
+      context: ../binotify-premium-app
+      dockerfile: Dockerfile
+    environment:
+      - REACT_APP_API_URL=http://localhost:8080/api
