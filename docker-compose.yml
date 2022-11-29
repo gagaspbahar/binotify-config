@@ -23,6 +23,7 @@ services:
       dockerfile: Dockerfile
     environment:
       - UPLOAD_LIMIT=10M
+      - URL=redis://redis:6379
     # command: yarn start
   react:
     # image: binotify-premium-app
@@ -43,3 +44,8 @@ services:
     build:
       context: ../binotify-soap/soap
       dockerfile: Dockerfile
+  redis:
+    image: redis:7-alpine
+    ports:
+      - 6379:6379
+    command: redis-server
