@@ -3,7 +3,7 @@ services:
   php-apache:
     # image: php:8.0-apache
     ports:
-      - 8001:80
+      - 8000:80
     volumes:
       - ../binotify-app:/var/www/html
     build:
@@ -37,3 +37,9 @@ services:
       dockerfile: Dockerfile
     environment:
       - REACT_APP_API_URL=http://localhost:8080/api
+  soap:
+    ports:
+      - 8888:8888
+    build:
+      context: ../binotify-soap/soap
+      dockerfile: Dockerfile
