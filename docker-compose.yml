@@ -1,7 +1,6 @@
 version: '3.3'
 services:
   php-apache:
-    # image: php:8.0-apache
     ports:
       - 8000:80
     volumes:
@@ -12,7 +11,6 @@ services:
     environment:
       - UPLOAD_LIMIT=10M
   express:
-    # image: binotify-rest
     ports:
       - 8080:8080
     # volumes:
@@ -25,15 +23,12 @@ services:
       - UPLOAD_LIMIT=10M
       - URL=redis://redis:6379
       - SOAP_URL=http://soap:8888/ws/subscription
-    # command: yarn start
   react:
-    # image: binotify-premium-app
     ports:
       - 4173:4173
     # volumes:
       # - ../binotify-premium-app:/react-app
     # working-dir: /react-app
-    # command: yarn preview
     build:
       context: ../binotify-premium-app
       dockerfile: Dockerfile
@@ -45,6 +40,8 @@ services:
     build:
       context: ../binotify-soap/soap
       dockerfile: Dockerfile
+    environment:
+      - PHP_URL=http://php-apache:80/api/subscription/sync.php
   redis:
     image: redis:7-alpine
     ports:
